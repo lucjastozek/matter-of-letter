@@ -1,5 +1,5 @@
 function getRandomLetter() {
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWYZ";
 
   return alphabet[Math.floor(Math.random() * alphabet.length)];
 }

@@ -7,6 +7,7 @@ interface IncorrectScreenProps {
   duration: number;
   countries: string[];
   setSecond: React.Dispatch<React.SetStateAction<number>>;
+  inpVal: string;
 }
 
 function IncorrectScreen({
@@ -15,10 +16,12 @@ function IncorrectScreen({
   duration,
   countries,
   setSecond,
+  inpVal,
 }: IncorrectScreenProps): JSX.Element {
   return (
     <div className="content">
       <h2>Incorrect ☹️</h2>
+      <p className="all">Your answer: {inpVal}</p>
       <p className="all">All correct answers:</p>
       <div className="answers">
         {countries

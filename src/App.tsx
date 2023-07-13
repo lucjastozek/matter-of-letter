@@ -33,35 +33,34 @@ function App(): JSX.Element {
     );
   }, [x]);
 
-  const fetchCountries = async () => {
+  async function fetchCountries() {
     const response = await fetch(`https://restcountries.com/v3.1/all`);
     const jsonBody = await response.json();
     const c = [];
+
     for (const country of jsonBody) {
       c.push(country.name.common);
     }
 
     setCountries(c);
-  };
+  }
 
   function changeScreenFromStart() {
     setStart(moment());
     setSecond(0);
 
-    fetchCountries().then(() => {
-      if (
-        countries.map((c) => c.toLowerCase()).includes(inpVal.toLowerCase())
-      ) {
-        getCountryFlag(inpVal).then(() => {
-          setScreen("correct");
-        });
-      } else {
-        setScreen("incorrect");
-      }
-    });
+    if (countries.map((c) => c.toLowerCase()).includes(inpVal.toLowerCase())) {
+      getCountryFlag(inpVal).then(() => {
+        setScreen("correct");
+      });
+    } else {
+      console.log(inpVal, countries);
+      setScreen("incorrect");
+    }
   }
 
   function changeScreenFromCorrect() {
+    setStart(moment());
     setInpVal("");
     setSecond(0);
     setLetter(getRandomLetter);
@@ -69,6 +68,7 @@ function App(): JSX.Element {
   }
 
   function changeScreenFromIncorrect() {
+    setStart(moment());
     setInpVal("");
     setSecond(0);
     setLetter(getRandomLetter);
@@ -92,6 +92,8 @@ function App(): JSX.Element {
     const jsonBody = await response.json();
     setFlag(jsonBody[0].flags.png);
   }
+
+  fetchCountries();
 
   return (
     <>
@@ -125,6 +127,7 @@ function App(): JSX.Element {
           duration={duration}
           countries={countries}
           setSecond={setSecond}
+          inpVal={inpVal}
         />
       )}
     </>
