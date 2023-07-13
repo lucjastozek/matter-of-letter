@@ -24,7 +24,7 @@ function App(): JSX.Element {
 
   useEffect(() => {
     setSecond(moment().diff(start, "seconds"));
-  }, [second, x]);
+  }, [second, x, start]);
 
   useEffect(() => {
     setTimeout(
@@ -32,8 +32,6 @@ function App(): JSX.Element {
       500
     );
   }, [x]);
-
-  console.log(second);
 
   const fetchCountries = async () => {
     const response = await fetch(`https://restcountries.com/v3.1/all`);
