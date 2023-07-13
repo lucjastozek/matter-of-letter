@@ -70,8 +70,8 @@ function App(): JSX.Element {
   });
 
   useEffect(() => {
-    setTimeout(() => setSecond((prev) => prev + 0.1), 100);
-  });
+    setTimeout(() => setSecond((prev) => prev + 1), 1000);
+  }, [second]);
 
   async function getCountryFlag(c: string) {
     const response = await fetch(`https://restcountries.com/v3.1/name/${c}`);
