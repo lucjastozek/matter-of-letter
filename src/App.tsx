@@ -49,7 +49,10 @@ function App(): JSX.Element {
     setStart(moment());
     setSecond(0);
 
-    if (countries.map((c) => c.toLowerCase()).includes(inpVal.toLowerCase())) {
+    if (
+      countries.map((c) => c.toLowerCase()).includes(inpVal.toLowerCase()) &&
+      inpVal[0].toUpperCase() === letter
+    ) {
       getCountryFlag(inpVal).then(() => {
         setScreen("correct");
       });
