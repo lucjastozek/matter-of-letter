@@ -9,21 +9,31 @@ import StartScreen from "./components/StartScreen";
 import CorrectScreen from "./components/CorrectScreen";
 import IncorrectScreen from "./components/IncorrectScreen";
 
+import moment from "moment";
+
 function App(): JSX.Element {
+  const duration = 10;
   const [letter, setLetter] = useState(getRandomLetter());
   const [inpVal, setInpVal] = useState("");
-  const [second, setSecond] = useState(0);
-  const [date, setDate] = useState(Date.now());
+  const [start, setStart] = useState(moment());
+  const [second, setSecond] = useState(-1);
   const [screen, setScreen] = useState("start");
   const [countries, setCountries] = useState<string[]>([]);
   const [flag, setFlag] = useState("");
+  const [x, setX] = useState(moment().get("second"));
 
-  const duration = 10;
   useEffect(() => {
-    const diff = (Date.now() - date) / 1000;
-    setDate(Date.now());
-    setSecond((prev) => prev + diff);
-  }, [second, date]);
+    setSecond(moment().diff(start, "seconds"));
+  }, [second, x]);
+
+  useEffect(() => {
+    setTimeout(
+      () => setX(Math.floor(moment().add(1, "seconds").get("milliseconds"))),
+      500
+    );
+  }, [x]);
+
+  console.log(second);
 
   const fetchCountries = async () => {
     const response = await fetch(`https://restcountries.com/v3.1/all`);
@@ -36,17 +46,21 @@ function App(): JSX.Element {
     setCountries(c);
   };
 
-  fetchCountries();
-
   function changeScreenFromStart() {
+    setStart(moment());
     setSecond(0);
-    if (countries.map((c) => c.toLowerCase()).includes(inpVal.toLowerCase())) {
-      getCountryFlag(inpVal).then(() => {
-        setScreen("correct");
-      });
-    } else {
-      setScreen("incorrect");
-    }
+
+    fetchCountries().then(() => {
+      if (
+        countries.map((c) => c.toLowerCase()).includes(inpVal.toLowerCase())
+      ) {
+        getCountryFlag(inpVal).then(() => {
+          setScreen("correct");
+        });
+      } else {
+        setScreen("incorrect");
+      }
+    });
   }
 
   function changeScreenFromCorrect() {
