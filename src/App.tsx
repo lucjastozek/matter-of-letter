@@ -67,7 +67,7 @@ function App(): JSX.Element {
         changeScreenFromIncorrect();
       }
     }
-  }, [second]);
+  });
 
   useEffect(() => {
     setTimeout(() => setSecond((prev) => prev + 0.1), 100);
