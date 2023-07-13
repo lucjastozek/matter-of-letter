@@ -13,11 +13,17 @@ function App(): JSX.Element {
   const [letter, setLetter] = useState(getRandomLetter());
   const [inpVal, setInpVal] = useState("");
   const [second, setSecond] = useState(0);
+  const [date, setDate] = useState(Date.now());
   const [screen, setScreen] = useState("start");
   const [countries, setCountries] = useState<string[]>([]);
   const [flag, setFlag] = useState("");
 
   const duration = 10;
+  useEffect(() => {
+    const diff = (Date.now() - date) / 1000;
+    setDate(Date.now());
+    setSecond((prev) => prev + diff);
+  }, [second, date]);
 
   const fetchCountries = async () => {
     const response = await fetch(`https://restcountries.com/v3.1/all`);
@@ -68,10 +74,6 @@ function App(): JSX.Element {
       }
     }
   });
-
-  useEffect(() => {
-    setTimeout(() => setSecond((prev) => prev + 1), 1000);
-  }, [second]);
 
   async function getCountryFlag(c: string) {
     const response = await fetch(`https://restcountries.com/v3.1/name/${c}`);
