@@ -78,7 +78,7 @@ function App(): JSX.Element {
         });
       }
     }
-  });
+  }, [second, screen, countries, inpVal, letter]);
 
   fetchCountries();
 
