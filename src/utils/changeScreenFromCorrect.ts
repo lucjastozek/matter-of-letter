@@ -7,6 +7,8 @@ interface CSFCorrectProps {
   setScreen: React.Dispatch<React.SetStateAction<string>>;
   setInpVal: React.Dispatch<React.SetStateAction<string>>;
   setLetter: React.Dispatch<React.SetStateAction<string>>;
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
+  category: string;
 }
 
 function changeScreenFromCorrect({
@@ -15,7 +17,14 @@ function changeScreenFromCorrect({
   setScreen,
   setInpVal,
   setLetter,
+  setCategory,
+  category,
 }: CSFCorrectProps) {
+  if (category === "country") {
+    setCategory("city");
+  } else {
+    setCategory("country");
+  }
   setStart(moment());
   setInpVal("");
   setSecond(0);

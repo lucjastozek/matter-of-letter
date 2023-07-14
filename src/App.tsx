@@ -7,6 +7,7 @@ import changeScreenFromStart from "./utils/changeScreenFromStart";
 import changeScreenFromCorrect from "./utils/changeScreenFromCorrect";
 import changeScreenFromIncorrect from "./utils/changeScreenFromIncorrect";
 import fetchCountries from "./utils/fetchCountries";
+import fetchCities from "./utils/fetchCities";
 
 import PageHeader from "./components/PageHeader";
 import StartScreen from "./components/StartScreen";
@@ -25,6 +26,8 @@ function App(): JSX.Element {
   const [countries, setCountries] = useState<string[]>([]);
   const [flag, setFlag] = useState("");
   const [x, setX] = useState(moment().get("second"));
+  const [cities, setCities] = useState<string[]>([]);
+  const [category, setCategory] = useState("country");
 
   useEffect(() => {
     setSecond(moment().diff(start, "seconds"));
@@ -48,6 +51,8 @@ function App(): JSX.Element {
           countries,
           inpVal,
           letter,
+          category,
+          cities,
         });
       } else if (screen === "correct") {
         changeScreenFromCorrect({
@@ -56,6 +61,8 @@ function App(): JSX.Element {
           setScreen,
           setInpVal,
           setLetter,
+          setCategory,
+          category,
         });
       } else {
         changeScreenFromIncorrect({
@@ -67,10 +74,11 @@ function App(): JSX.Element {
         });
       }
     }
-  }, [second, screen, countries, inpVal, letter]);
+  }, [second, screen, countries, inpVal, letter, category, cities]);
 
   useEffect(() => {
     fetchCountries(setCountries);
+    fetchCities(setCities);
   }, []);
 
   return (
@@ -90,6 +98,9 @@ function App(): JSX.Element {
           setLetter={setLetter}
           setFlag={setFlag}
           countries={countries}
+          category={category}
+          cities={cities}
+          setCategory={setCategory}
         />
       )}
       {screen === "correct" && (
@@ -107,6 +118,9 @@ function App(): JSX.Element {
           setInpVal={setInpVal}
           setLetter={setLetter}
           setFlag={setFlag}
+          category={category}
+          cities={cities}
+          setCategory={setCategory}
         />
       )}
 
@@ -124,6 +138,9 @@ function App(): JSX.Element {
           setInpVal={setInpVal}
           setLetter={setLetter}
           setFlag={setFlag}
+          category={category}
+          cities={cities}
+          setCategory={setCategory}
         />
       )}
     </>

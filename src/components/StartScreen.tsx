@@ -15,6 +15,9 @@ interface StartScreenProps {
   setLetter: React.Dispatch<React.SetStateAction<string>>;
   setFlag: React.Dispatch<React.SetStateAction<string>>;
   countries: string[];
+  category: string;
+  cities: string[];
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function StartScreen({
@@ -30,6 +33,9 @@ function StartScreen({
   setLetter,
   setFlag,
   countries,
+  category,
+  cities,
+  setCategory,
 }: StartScreenProps): JSX.Element {
   return (
     <div className="content">
@@ -39,6 +45,7 @@ function StartScreen({
         setInpVal={setInpVal}
         setSecond={setSecond}
         duration={duration}
+        category={category}
       />
       <Timer second={second} duration={duration} />
       <NextButton
@@ -52,6 +59,9 @@ function StartScreen({
         countries={countries}
         inpVal={inpVal}
         letter={letter}
+        category={category}
+        cities={cities}
+        setCategory={setCategory}
       />
     </div>
   );

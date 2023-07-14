@@ -13,6 +13,9 @@ interface NextButtonProps {
   countries: string[];
   inpVal: string;
   letter: string;
+  category: string;
+  cities: string[];
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function handleScreenChange({
@@ -26,6 +29,9 @@ function handleScreenChange({
   countries,
   inpVal,
   letter,
+  category,
+  cities,
+  setCategory,
 }: NextButtonProps) {
   if (screen === "start") {
     changeScreenFromStart({
@@ -36,6 +42,8 @@ function handleScreenChange({
       countries,
       inpVal,
       letter,
+      category,
+      cities,
     });
   } else if (screen === "correct") {
     changeScreenFromCorrect({
@@ -44,6 +52,8 @@ function handleScreenChange({
       setScreen,
       setInpVal,
       setLetter,
+      setCategory,
+      category,
     });
   } else {
     changeScreenFromIncorrect({
@@ -67,6 +77,9 @@ function NextButton({
   countries,
   inpVal,
   letter,
+  category,
+  cities,
+  setCategory,
 }: NextButtonProps): JSX.Element {
   return (
     <button
@@ -82,6 +95,9 @@ function NextButton({
           countries,
           inpVal,
           letter,
+          category,
+          cities,
+          setCategory,
         })
       }
     >
