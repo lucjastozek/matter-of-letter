@@ -6,6 +6,7 @@ import getRandomLetter from "./utils/getRandomLetter";
 import changeScreenFromStart from "./utils/changeScreenFromStart";
 import changeScreenFromCorrect from "./utils/changeScreenFromCorrect";
 import changeScreenFromIncorrect from "./utils/changeScreenFromIncorrect";
+import fetchCountries from "./utils/fetchCountries";
 
 import PageHeader from "./components/PageHeader";
 import StartScreen from "./components/StartScreen";
@@ -35,18 +36,6 @@ function App(): JSX.Element {
       500
     );
   }, [x]);
-
-  async function fetchCountries() {
-    const response = await fetch(`https://restcountries.com/v3.1/all`);
-    const jsonBody = await response.json();
-    const c = [];
-
-    for (const country of jsonBody) {
-      c.push(country.name.common);
-    }
-
-    setCountries(c);
-  }
 
   useEffect(() => {
     if (second >= duration) {
@@ -80,7 +69,9 @@ function App(): JSX.Element {
     }
   }, [second, screen, countries, inpVal, letter]);
 
-  fetchCountries();
+  useEffect(() => {
+    fetchCountries(setCountries);
+  }, []);
 
   return (
     <>
