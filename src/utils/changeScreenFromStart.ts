@@ -9,6 +9,8 @@ interface CSFStartProps {
   countries: string[];
   inpVal: string;
   letter: string;
+  category: string;
+  cities: string[];
 }
 
 function changeScreenFromStart({
@@ -19,20 +21,32 @@ function changeScreenFromStart({
   countries,
   inpVal,
   letter,
+  category,
+  cities,
 }: CSFStartProps) {
   setStart(moment());
   setSecond(0);
 
-  if (
-    countries.map((c) => c.toLowerCase()).includes(inpVal.toLowerCase()) &&
-    inpVal[0].toUpperCase() === letter
-  ) {
-    getCountryFlag(inpVal, setFlag).then(() => {
-      setScreen("correct");
-    });
+  if (category === "country") {
+    if (
+      countries.map((c) => c.toLowerCase()).includes(inpVal.toLowerCase()) &&
+      inpVal[0].toUpperCase() === letter
+    ) {
+      getCountryFlag(inpVal, setFlag).then(() => {
+        setScreen("correct");
+      });
+    } else {
+      setScreen("incorrect");
+    }
   } else {
-    console.log(inpVal, countries);
-    setScreen("incorrect");
+    if (
+      cities.map((c) => c.toLowerCase()).includes(inpVal.toLowerCase()) &&
+      inpVal[0].toUpperCase() === letter
+    ) {
+      setScreen("correct");
+    } else {
+      setScreen("incorrect");
+    }
   }
 }
 
