@@ -11,7 +11,6 @@ import PageHeader from "./components/PageHeader";
 import StartScreen from "./components/StartScreen";
 import CorrectScreen from "./components/CorrectScreen";
 import IncorrectScreen from "./components/IncorrectScreen";
-import NextButton from "./components/NextButton";
 
 import moment from "moment";
 
