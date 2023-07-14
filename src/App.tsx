@@ -3,11 +3,15 @@ import "./styles.css";
 import { useState, useEffect } from "react";
 
 import getRandomLetter from "./utils/getRandomLetter";
+import changeScreenFromStart from "./utils/changeScreenFromStart";
+import changeScreenFromCorrect from "./utils/changeScreenFromCorrect";
+import changeScreenFromIncorrect from "./utils/changeScreenFromIncorrect";
 
 import PageHeader from "./components/PageHeader";
 import StartScreen from "./components/StartScreen";
 import CorrectScreen from "./components/CorrectScreen";
 import IncorrectScreen from "./components/IncorrectScreen";
+import NextButton from "./components/NextButton";
 
 import moment from "moment";
 
@@ -45,56 +49,37 @@ function App(): JSX.Element {
     setCountries(c);
   }
 
-  function changeScreenFromStart() {
-    setStart(moment());
-    setSecond(0);
-
-    if (
-      countries.map((c) => c.toLowerCase()).includes(inpVal.toLowerCase()) &&
-      inpVal[0].toUpperCase() === letter
-    ) {
-      getCountryFlag(inpVal).then(() => {
-        setScreen("correct");
-      });
-    } else {
-      console.log(inpVal, countries);
-      setScreen("incorrect");
-    }
-  }
-
-  function changeScreenFromCorrect() {
-    setStart(moment());
-    setInpVal("");
-    setSecond(0);
-    setLetter(getRandomLetter);
-    setScreen("start");
-  }
-
-  function changeScreenFromIncorrect() {
-    setStart(moment());
-    setInpVal("");
-    setSecond(0);
-    setLetter(getRandomLetter);
-    setScreen("start");
-  }
-
   useEffect(() => {
     if (second >= duration) {
       if (screen === "start") {
-        changeScreenFromStart();
+        changeScreenFromStart({
+          setStart,
+          setSecond,
+          setFlag,
+          setScreen,
+          countries,
+          inpVal,
+          letter,
+        });
       } else if (screen === "correct") {
-        changeScreenFromCorrect();
+        changeScreenFromCorrect({
+          setStart,
+          setSecond,
+          setScreen,
+          setInpVal,
+          setLetter,
+        });
       } else {
-        changeScreenFromIncorrect();
+        changeScreenFromIncorrect({
+          setStart,
+          setSecond,
+          setScreen,
+          setInpVal,
+          setLetter,
+        });
       }
     }
   });
-
-  async function getCountryFlag(c: string) {
-    const response = await fetch(`https://restcountries.com/v3.1/name/${c}`);
-    const jsonBody = await response.json();
-    setFlag(jsonBody[0].flags.png);
-  }
 
   fetchCountries();
 
@@ -109,6 +94,12 @@ function App(): JSX.Element {
           second={second}
           duration={duration}
           setSecond={setSecond}
+          screen={screen}
+          setStart={setStart}
+          setScreen={setScreen}
+          setLetter={setLetter}
+          setFlag={setFlag}
+          countries={countries}
         />
       )}
       {screen === "correct" && (
@@ -120,6 +111,12 @@ function App(): JSX.Element {
           flag={flag}
           countries={countries}
           setSecond={setSecond}
+          screen={screen}
+          setStart={setStart}
+          setScreen={setScreen}
+          setInpVal={setInpVal}
+          setLetter={setLetter}
+          setFlag={setFlag}
         />
       )}
 
@@ -131,6 +128,12 @@ function App(): JSX.Element {
           countries={countries}
           setSecond={setSecond}
           inpVal={inpVal}
+          screen={screen}
+          setStart={setStart}
+          setScreen={setScreen}
+          setInpVal={setInpVal}
+          setLetter={setLetter}
+          setFlag={setFlag}
         />
       )}
     </>

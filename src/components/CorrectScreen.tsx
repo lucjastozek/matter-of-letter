@@ -1,5 +1,6 @@
 import Timer from "./Timer";
 import HiddenInput from "./HiddenInput";
+import NextButton from "./NextButton";
 
 interface CorrectScreenProps {
   letter: string;
@@ -9,6 +10,12 @@ interface CorrectScreenProps {
   flag: string;
   countries: string[];
   setSecond: React.Dispatch<React.SetStateAction<number>>;
+  screen: string;
+  setStart: React.Dispatch<React.SetStateAction<moment.Moment>>;
+  setScreen: React.Dispatch<React.SetStateAction<string>>;
+  setInpVal: React.Dispatch<React.SetStateAction<string>>;
+  setLetter: React.Dispatch<React.SetStateAction<string>>;
+  setFlag: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function CorrectScreen({
@@ -19,6 +26,12 @@ function CorrectScreen({
   flag,
   countries,
   setSecond,
+  screen,
+  setStart,
+  setScreen,
+  setInpVal,
+  setLetter,
+  setFlag,
 }: CorrectScreenProps): JSX.Element {
   return (
     <div className="content">
@@ -36,6 +49,18 @@ function CorrectScreen({
           ))}
       </div>
       <Timer second={second} duration={duration} />
+      <NextButton
+        screen={screen}
+        setStart={setStart}
+        setSecond={setSecond}
+        setScreen={setScreen}
+        setInpVal={setInpVal}
+        setLetter={setLetter}
+        setFlag={setFlag}
+        countries={countries}
+        inpVal={inpVal}
+        letter={letter}
+      />
       <HiddenInput setSecond={setSecond} duration={duration} />
     </div>
   );
