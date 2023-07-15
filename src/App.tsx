@@ -2,6 +2,7 @@ import "./styles.css";
 
 import { useState, useEffect } from "react";
 
+// helper functions
 import getRandomLetter from "./utils/getRandomLetter";
 import changeScreenFromStart from "./utils/changeScreenFromStart";
 import changeScreenFromCorrect from "./utils/changeScreenFromCorrect";
@@ -9,37 +10,49 @@ import changeScreenFromIncorrect from "./utils/changeScreenFromIncorrect";
 import fetchCountries from "./utils/fetchCountries";
 import fetchCities from "./utils/fetchCities";
 
+// components
 import PageHeader from "./components/PageHeader";
 import StartScreen from "./components/StartScreen";
 import CorrectScreen from "./components/CorrectScreen";
 import IncorrectScreen from "./components/IncorrectScreen";
 
+// time
 import moment from "moment";
 
 function App(): JSX.Element {
+  // timer duration in seconds
   const duration = 10;
+
+  // states
   const [letter, setLetter] = useState(getRandomLetter());
   const [inpVal, setInpVal] = useState("");
+  // timer start timestamp
   const [start, setStart] = useState(moment());
+  const [now, setNow] = useState(moment().get("second"));
+  // current second of the timer, between -1 and duration
   const [second, setSecond] = useState(-1);
   const [screen, setScreen] = useState("start");
+
   const [countries, setCountries] = useState<string[]>([]);
-  const [flag, setFlag] = useState("");
-  const [x, setX] = useState(moment().get("second"));
   const [cities, setCities] = useState<string[]>([]);
+
+  const [flag, setFlag] = useState("");
   const [category, setCategory] = useState("country");
 
+  // updating second
   useEffect(() => {
     setSecond(moment().diff(start, "seconds"));
-  }, [second, x, start]);
+  }, [second, now, start]);
 
+  // updating current time
   useEffect(() => {
     setTimeout(
-      () => setX(Math.floor(moment().add(1, "seconds").get("milliseconds"))),
+      () => setNow(Math.floor(moment().add(1, "seconds").get("milliseconds"))),
       500
     );
-  }, [x]);
+  }, [now]);
 
+  // updating screen
   useEffect(() => {
     if (second >= duration) {
       if (screen === "start") {
@@ -76,6 +89,7 @@ function App(): JSX.Element {
     }
   }, [second, screen, countries, inpVal, letter, category, cities]);
 
+  // fetching data from APIs
   useEffect(() => {
     fetchCountries(setCountries);
     fetchCities(setCities);
