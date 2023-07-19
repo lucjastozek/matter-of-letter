@@ -1,5 +1,6 @@
 import getCountryFlag from "./getCountryFlag";
 import moment from "moment";
+import turnToWord from "./turnToWord";
 
 interface CSFStartProps {
   setStart: React.Dispatch<React.SetStateAction<moment.Moment>>;
@@ -27,12 +28,14 @@ function changeScreenFromStart({
   setStart(moment());
   setSecond(0);
 
+  const word = turnToWord(inpVal);
+
   if (category === "country") {
     if (
-      countries.map((c) => c.toLowerCase()).includes(inpVal.toLowerCase()) &&
-      inpVal[0].toUpperCase() === letter
+      countries.map((c) => c.toLowerCase()).includes(word.toLowerCase()) &&
+      word[0].toUpperCase() === letter
     ) {
-      getCountryFlag(inpVal, setFlag).then(() => {
+      getCountryFlag(word, setFlag).then(() => {
         setScreen("correct");
       });
     } else {
@@ -40,8 +43,8 @@ function changeScreenFromStart({
     }
   } else {
     if (
-      cities.map((c) => c.toLowerCase()).includes(inpVal.toLowerCase()) &&
-      inpVal[0].toUpperCase() === letter
+      cities.map((c) => c.toLowerCase()).includes(word.toLowerCase()) &&
+      word[0].toUpperCase() === letter
     ) {
       setScreen("correct");
     } else {
